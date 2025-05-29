@@ -4,9 +4,9 @@ from flask_jwt_extended import JWTManager
 
 load_dotenv('.env.development')
 
-from .blueprints.users import users_blueprint
-from .errors.errors import ApiError
-from .models.db import init_db
+from src.blueprints.users import users_blueprint
+from src.errors.errors import ApiError
+from src.models.db import init_db
 import os
 
 app = Flask(__name__)
@@ -24,3 +24,6 @@ def handle_exception(err):
         'mssg': err.description
     }
     return jsonify(response), err.code
+
+if __name__ == "__main__":
+    app.run(debug=False, host='0.0.0.0', port=int(os.getenv("PORT", 5000)))
