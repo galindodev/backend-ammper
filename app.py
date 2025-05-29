@@ -5,6 +5,8 @@ from flask_jwt_extended import JWTManager
 load_dotenv('.env.development')
 
 from src.blueprints.users import users_blueprint
+from src.blueprints.belvo import belvos_blueprint
+
 from src.errors.errors import ApiError
 from src.models.db import init_db
 import os
@@ -17,6 +19,7 @@ jwt = JWTManager(app)
 init_db(app)
 
 app.register_blueprint(users_blueprint)
+app.register_blueprint(belvos_blueprint)
 
 @app.errorhandler(ApiError)
 def handle_exception(err):

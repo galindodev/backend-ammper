@@ -28,3 +28,20 @@ def create_link_user(username, password):
     except requests.exceptions.RequestException:
         raise ApiError()
 
+
+def get_institutions_data():
+    url = os.getenv("BELVO_PHAT") + "/api/institutions/"
+    auth = (os.getenv("SECRECT_ID"), os.getenv("SECRECT_PASSWORD"))
+    
+    try:
+        response = requests.get(url, auth=auth)
+        if response.status_code == 200:
+            return response.json()
+        else:
+            error = ApiError()
+            error.code = response.status_code
+            error.description = "Error fetching institutions data: " + response.text
+            raise error
+
+    except requests.exceptions.RequestException:
+        raise ApiError()
