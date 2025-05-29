@@ -1,8 +1,9 @@
 from flask import jsonify, Blueprint, request
 from ..commands.ping import Ping
 from ..commands.reset_data import ResetData
+from ..commands.auth_login import Login
 from ..commands.signup import SignUp
-from ..models.user import NewUserJsonSchema
+from ..models.user import NewUserJsonSchema, AuthUserJsonSchema
 
 users_blueprint = Blueprint("users", __name__)
 
@@ -24,3 +25,10 @@ def signup():
     NewUserJsonSchema.check(json)
     command = SignUp(json.get("email"), json.get("password")).execute()
     return jsonify(command), 201
+
+@users_blueprint.post("/users/auth")
+def login():
+    json = request.get_json()
+    AuthUserJsonSchema.check(json)
+    command = Login(json.get("email"), json.get("password")).execute()
+    return jsonify(command), 200
