@@ -21,7 +21,7 @@ class Login(BaseCommannd):
                 "username": user.username,
                 "link": user.link
             },
-            expires_delta=timedelta(hours=2)
+            expires_delta=timedelta(minutes=20)
         )
 
         return {
