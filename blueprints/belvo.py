@@ -3,7 +3,7 @@ from flask_jwt_extended import jwt_required, get_jwt_identity
 from commands.get_accounts import GetAccounts
 from commands.get_institutions import GetInstitutions
 from commands.get_transation import GetTransactions
-from models.belvos import IdAccountSchema
+from models.belvos import IdAccountSchema, AccountsSchema
 
 
 belvos_blueprint = Blueprint("belvos", __name__)
@@ -15,11 +15,13 @@ def get_institutions():
     command = GetInstitutions(user_id).execute()
     return jsonify(command), 200
 
-@belvos_blueprint.get("/belvos/accounts")
+@belvos_blueprint.post("/belvos/accounts")
 @jwt_required()
 def get_accounts():
+    json = request.get_json()
+    AccountsSchema.check(json)
     user_id = get_jwt_identity()  
-    command = GetAccounts(user_id).execute()
+    command = GetAccounts(user_id, json["bank_name"]).execute()
     return jsonify(command), 200
 
 @belvos_blueprint.post("/belvos/transactions")
