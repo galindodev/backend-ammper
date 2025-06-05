@@ -17,9 +17,7 @@ class Login(BaseCommannd):
         access_token = create_access_token(
             identity=user.id,
             additional_claims={
-                "email": user.email,
-                "username": user.username,
-                "link": user.link
+                "email": user.email
             },
             expires_delta=timedelta(minutes=20)
         )
@@ -27,8 +25,6 @@ class Login(BaseCommannd):
         return {
             "token": access_token,
             "user": {
-                "username": user.username,
                 "email": user.email,
-                "link": user.link
             }
         }

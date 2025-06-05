@@ -6,16 +6,17 @@ from utils.http import get_transactions_data
 
 
 class GetTransactions(BaseCommannd):
-    def __init__(self, user_id, account_id):
+    def __init__(self, user_id, account_id, link_id):
         self.user_id = user_id
         self.account_id = account_id
+        self.link = link_id 
 
     def execute(self):
         user = User.query.filter_by(id=self.user_id).first()
         if not user:
             raise InvalidCredentialsErrors()
 
-        transactions = get_transactions_data(self.account_id, user.link)['results']
+        transactions = get_transactions_data(self.account_id, self.link)['results']
 
         ingresos = sum(tx["amount"] for tx in transactions if tx["type"] == "INFLOW")
         egresos = sum(tx["amount"] for tx in transactions if tx["type"] == "OUTFLOW")

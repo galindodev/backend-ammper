@@ -14,7 +14,7 @@ class GetAccounts(BaseCommannd):
         user = User.query.filter_by(id=self.user_id).first()
         if not user:
             raise InvalidCredentialsErrors()
-        data_account = get_accounts_data(user.link)['results']
+        data_account = get_accounts_data()['results']
 
         list_banks = []
         for element in data_account:
@@ -22,6 +22,7 @@ class GetAccounts(BaseCommannd):
                 list_banks.append({
                     'account_id': element['id'],
                     'bank_name': element['institution']['name'],
+                    'link_id': element['link'],
                     'name': element['name'],
                     'type': element['type'],
                     'balance': element['balance']['current'],

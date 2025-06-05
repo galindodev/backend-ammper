@@ -4,6 +4,7 @@ from errors.errors import InvalidCredentialsErrors, MissingAuthParams
 
 class IdAccountSchema(Schema):
     account_id = fields.String(required=True, validate=validate.Length(min=1, max=255))
+    link_id = fields.String(required=False, validate=validate.Length(min=1, max=255))
 
     @staticmethod
     def check(json):
@@ -15,7 +16,7 @@ class IdAccountSchema(Schema):
 
     @staticmethod
     def check_empty(json):
-        fields = ['account_id']
+        fields = ['account_id', 'link_id']
         if not any(field in json for field in fields):
             raise MissingAuthParams()
         for field in fields:

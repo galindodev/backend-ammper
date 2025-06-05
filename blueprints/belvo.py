@@ -30,5 +30,5 @@ def get_transactions():
     json = request.get_json()
     IdAccountSchema.check(json)
     user_id = get_jwt_identity()  
-    command = GetTransactions(user_id, json["account_id"]).execute()
+    command = GetTransactions(user_id, json["account_id"], json.get("link_id")).execute()
     return jsonify(command), 200

@@ -5,10 +5,7 @@ from errors.errors import ParamError, InvalidCredentialsErrors, MissingAuthParam
 
 class User(Model, Base):
 	__tablename__ = 'users'
-
-	username = Column(String, nullable=False, unique=False)
 	email = Column(String, nullable=False, unique=True)
-	link = Column(String, nullable=False, unique=True)
 	password = Column(String, nullable=False)
 
 class NewUserJsonSchema(Schema):
